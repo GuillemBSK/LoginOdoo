@@ -2,7 +2,6 @@ package com.example.loginodoo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
@@ -23,48 +22,41 @@ import de.timroes.axmlrpc.XMLRPCCallback;
 import de.timroes.axmlrpc.XMLRPCException;
 import de.timroes.axmlrpc.XMLRPCServerException;
 
-public class CustomerListActivity extends AppCompatActivity {
-
+public class SOListActivity extends AppCompatActivity {
     private OdooUtility odoo;
     private String uid;
     private String password;
     private String serverAddress;
     private String database;
     private long searchTaskId;
-    ListView listViewPartner;
-    List arrayListPartner;
+    ListView listViewSaleOrder;
+    List arrayListSaleOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_list);
+        setContentView(R.layout.activity_so_list);
 
-        uid = SharedData.getKey(CustomerListActivity.this, "uid");
-        password = SharedData.getKey(CustomerListActivity.this, "password");
-        serverAddress = SharedData.getKey(CustomerListActivity.this,
+        uid = SharedData.getKey(SOListActivity.this, "uid");
+        password = SharedData.getKey(SOListActivity.this, "password");
+        serverAddress = SharedData.getKey(SOListActivity.this,
                 "serverAddress");
-        database = SharedData.getKey(CustomerListActivity.this, "database");
+        database = SharedData.getKey(SOListActivity.this, "database");
         odoo = new OdooUtility(serverAddress, "object");
-        arrayListPartner = new ArrayList();
-        listViewPartner = (ListView) findViewById(R.id.listPartner);
+        arrayListSaleOrder = new ArrayList();
+        listViewSaleOrder = (ListView)
+                findViewById(R.id.listViewSO);
     }
 
-    public void onClickSearchPartner(View v){
+    public void onClickSearchSO (View v){
         EditText editKeyword = (EditText) findViewById(R.id.editKeyword);
         String keyword = editKeyword.getText().toString();
-        List conditions = Arrays.asList(
-                Arrays.asList(
-                        Arrays.asList("name", "ilike", keyword)));
-        //pyhthon equivalent ==> [ [ ["name", "ilike", keyword] ] ]
+        List conditions = Arrays.asList(Arrays.asList(Arrays.asList("name", "ilike", keyword)));
         Map fields = new HashMap() {{
-            put("fields", Arrays.asList(
-                    "id",
-                    "display_name"
-            ));
+            put("fields", Arrays.asList("id", "name"));
         }};
-        //python equivalent ==> { "fields" : ["id","display_name"] }
         searchTaskId = odoo.search_read(listener, database, uid, password,
-                "res.partner", conditions, fields);
+                "sale.order", conditions, fields);
     }
 
     XMLRPCCallback listener = new XMLRPCCallback() {
@@ -75,43 +67,47 @@ public class CustomerListActivity extends AppCompatActivity {
                 Object[] classObjs=(Object[])result;
                 int length=classObjs.length;
                 if(length>0){
-                    arrayListPartner.clear();
+                    arrayListSaleOrder.clear();
                     for (int i=0; i < length; i++) {
                         @SuppressWarnings("unchecked")
                         Map<String,Object> classObj =
                                 (Map<String,Object>)classObjs[i];
-                        arrayListPartner.add(classObj.get("display_name"));
+                        arrayListSaleOrder.add(classObj.get("name"));
                     }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            fillListPartner();
+                            fillListSaleOrder();
                         }
                     });
                 }
                 else
                 {
-                    odoo.MessageDialog(CustomerListActivity.this,
-                            "Partner not found");
+                    odoo.MessageDialog(SOListActivity.this,
+                            "Sale Order not found");
                 }
             }
             Looper.loop();
         }
-
         public void onError(long id, XMLRPCException error) {
+            Looper.prepare();
             Log.e("SEARCH", error.getMessage());
-            odoo.MessageDialog(CustomerListActivity.this, error.getMessage());
+            odoo.MessageDialog(SOListActivity.this, error.getMessage());
+            Looper.loop();
         }
         public void onServerError(long id, XMLRPCServerException error) {
+            Looper.prepare();
             Log.e("SEARCH", error.getMessage());
-            odoo.MessageDialog(CustomerListActivity.this, error.getMessage());
+            odoo.MessageDialog(SOListActivity.this, error.getMessage());
+            Looper.loop();
         }
     };
-
-    private void fillListPartner(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, arrayListPartner);
-        listViewPartner.setAdapter(adapter);
-        listViewPartner.setOnItemClickListener(
+    private void fillListSaleOrder(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1,
+                android.R.id.text1, arrayListSaleOrder);
+        listViewSaleOrder.setAdapter(adapter);
+        listViewSaleOrder.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
@@ -120,20 +116,13 @@ public class CustomerListActivity extends AppCompatActivity {
                         // ListView Clicked item index
                         int itemPosition = position;
                         // ListView Clicked item value
-                        String itemValue = (String) listViewPartner.getItemAtPosition(position);
+                        String itemValue = (String)
+                                listViewSaleOrder.getItemAtPosition(position);
                         // Show Alert
-                        Toast.makeText(getApplicationContext(), "Position :" + itemPosition + " ListItem : " + itemValue, Toast.LENGTH_LONG).show();
-
-                        Intent myIntent = new Intent(CustomerListActivity.this,
-                                CustomerFormActivity.class);
-                        myIntent.putExtra("name", itemValue);
-                        CustomerListActivity.this.startActivity(myIntent);
-
+                        Toast.makeText(getApplicationContext(),
+                                "Position :" + itemPosition + " ListItem : " +
+                                        itemValue, Toast.LENGTH_LONG).show();
                     }
                 });
-    }
-    public void onAddPartnerClick(View v){
-        Intent myIntent = new Intent(CustomerListActivity.this, CustomerFormActivity.class);
-        CustomerListActivity.this.startActivity(myIntent);
     }
 }
