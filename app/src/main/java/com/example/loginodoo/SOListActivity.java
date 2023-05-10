@@ -43,7 +43,7 @@ public class SOListActivity extends AppCompatActivity {
     List arrayListSaleOrder;
     Button buttonScan;
     private IntentIntegrator qrScan;
-    String textViewName;
+    String textViewName = "S0001";
     String textViewAddress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +110,24 @@ public class SOListActivity extends AppCompatActivity {
                     //that means the encoded format not matches
                     //in this case you can display whatever data is available on the qrcode
                     //to a toast
+
+                    // Crear un objeto AlertDialog.Builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                    // Configurar el mensaje y el título de la ventana emergente
+                    builder.setMessage("Name: "+textViewName)
+                            .setTitle("CUSTOMER");
+
+
+                    // Configurar el botón "Aceptar"
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
 
                 }
