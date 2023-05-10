@@ -16,7 +16,7 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <EditText
-        android:id="@+id/editKeyword"
+        android:id="@+id/editKeywordSO"
         android:layout_width="205dp"
         android:layout_height="54dp"
         android:ems="10"
@@ -30,24 +30,37 @@
         android:id="@+id/buttonSearch"
         android:layout_width="153dp"
         android:layout_height="49dp"
-        android:text="Button"
+        android:layout_marginEnd="16dp"
+        android:onClick="onClickSearchSO"
+        android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:layout_editor_absoluteY="58dp" />
+        tools:layout_editor_absoluteY="57dp" />
 
     <ListView
         android:id="@+id/listViewSO"
         android:layout_width="361dp"
         android:layout_height="522dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="111dp" />
 
     <Button
         android:id="@+id/buttonNewSaleOrder"
-        android:layout_width="348dp"
-        android:layout_height="47dp"
+        android:layout_width="183dp"
+        android:layout_height="36dp"
         android:text="New sale order"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/listViewSO"
         tools:layout_editor_absoluteX="22dp" />
+
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="158dp"
+        android:layout_height="34dp"
+        android:text="Scan"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonNewSaleOrder"
+        app:layout_constraintTop_toBottomOf="@+id/listViewSO" />
 </androidx.constraintlayout.widget.ConstraintLayout>

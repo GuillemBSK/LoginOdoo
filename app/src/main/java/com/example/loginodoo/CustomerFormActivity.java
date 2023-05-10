@@ -92,7 +92,6 @@ public class CustomerFormActivity extends AppCompatActivity {
                     "country_id",
                     "phone",
                     "mobile",
-                    "fax",
                     "email",
                     "website"
             ));
@@ -187,13 +186,13 @@ public class CustomerFormActivity extends AppCompatActivity {
         editStreet.setText(partner.getStreet());
         editStreet2.setText(partner.getStreet2());
         editCity.setText(partner.getCity());
-        editState.setText(partner.getState());
-        editCountry.setText(partner.getCountry());
+        //editState.setText(partner.getState());
+        //editCountry.setText(partner.getCountry());
         editPhone.setText(partner.getPhone());
         editMobile.setText(partner.getMobile());
-        editFax.setText(partner.getFax());
+        //editFax.setText(partner.getFax());
         editEmail.setText(partner.getEmail());
-        editWebsite.setText(partner.getWebsite());
+        //editWebsite.setText(partner.getWebsite());
     }
     private void updatePartnerModel(){
         String name = editName.getText().toString();
@@ -207,19 +206,19 @@ public class CustomerFormActivity extends AppCompatActivity {
         String fax = editFax.getText().toString();
         String email = editEmail.getText().toString();
         String website = editWebsite.getText().toString();
-        partner.setName(name);
-        partner.setStreet(street);
-        partner.setStreet2(street2);
-        partner.setCity(city);
-        //partner.setStateId( );
-        partner.setState(state);
-        //partner.setCountryId( );
-        partner.setCountry(country);
-        partner.setPhone(phone);
-        partner.setMobile(mobile);
-        partner.setFax(fax);
-        partner.setEmail(email);
-        partner.setWebsite(website);
+        partner.setName(partner.getName());
+        partner.setStreet(partner.getStreet());
+        partner.setStreet2(partner.getStreet2());
+        partner.setCity(partner.getCity());
+        partner.setStateId(partner.getStateId());
+        partner.setState(partner.getState());
+        partner.setCountryId(partner.getCountryId());
+        partner.setCountry(partner.getCountry());
+        partner.setPhone(partner.getPhone());
+        partner.setMobile(partner.getMobile());
+        partner.setFax(partner.getFax());
+        partner.setEmail(partner.getEmail());
+        partner.setWebsite(partner.getWebsite());
     }
 
     public void onSavePartner(View v){
