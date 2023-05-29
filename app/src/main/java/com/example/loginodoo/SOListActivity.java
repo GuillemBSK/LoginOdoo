@@ -112,7 +112,7 @@ public class SOListActivity extends AppCompatActivity {
 
                     // Configurar el mensaje y el título de la ventana emergente
                     builder.setMessage("Name: "+textViewName)
-                            .setTitle("CUSTOMER");
+                            .setTitle("SALE ORDER: ");
 
 
                     // Configurar el botón "Aceptar"
