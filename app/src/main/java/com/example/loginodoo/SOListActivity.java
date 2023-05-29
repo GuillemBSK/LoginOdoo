@@ -86,15 +86,11 @@ public class SOListActivity extends AppCompatActivity {
                     //setting values to textviews
                     textViewName = (obj.getString("name"));
 
-                    // Crear un objeto AlertDialog.Builder
                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-                    // Configurar el mensaje y el título de la ventana emergente
                     builder.setMessage("Name: "+textViewName+" Address: "+textViewAddress)
-                            .setTitle("CUSTOMER");
+                            .setTitle("SALE");
 
-
-                    // Configurar el botón "Aceptar"
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
